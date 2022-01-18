@@ -4,6 +4,7 @@
 
 body {
     margin: 0;
+    font-family: 'Dongle', sans-serif;
 } 
 
 .navbar {
@@ -19,7 +20,7 @@ body {
 .nav-element {
     text-transform: uppercase;
     font-size:2em ;
-    font-family: 'Dongle', sans-serif;
+    
     transition: 0.3s;
     display: flex;
     flex-direction: row;
@@ -71,7 +72,6 @@ section {
     justify-content: center;
     font-size:4em ;
     line-height: 1em;
-    font-family: 'Dongle', sans-serif;
 }
 
 .nom span{
@@ -80,6 +80,7 @@ section {
 
 .nom span:nth-child(1).shake {
 	animation: .8s shake infinite alternate;
+    cursor: crosshair;
 }
 
 @keyframes shake {
@@ -109,16 +110,53 @@ section {
 .socials {
     display: flex;
     justify-content: space-around;   
-    margin: 10% 0 0 0;
+    margin: 15% 0 0 0;
 }
 
 .social-element {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 2% 2% 2% 2%;
+    border-radius: 10px;
     align-items: center;
-    margin: 0 10% 0 10%;
+    margin: 0 20% 0 20%;
+    background: white;
+    background: linear-gradient(to left,white 1% lightblue 100%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
 }
+
+.social-element:hover {
+    transform: scale(1.3);
+}
+
+.social-element p{
+    font-size: x-large;
+}
+
+.social-element img {
+    
+}
+
+.autre {
+
+}
+
+.contacter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.bouton{
+    background-color: #C3FCF2;
+    border-radius: 10px;
+    margin: 0 10% 0 10%;
+    width: 200px;
+}
+
 
 #profil {
     background-color: chartreuse;
