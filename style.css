@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+
+
+
+body {
+    margin: 0;
+} 
+
+.navbar {
+    position: fixed;
+    width: 17vw;
+    height: 100vh;
+    margin-left: 1vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nav-element {
+    text-transform: uppercase;
+    font-size:2em ;
+    font-family: 'Dongle', sans-serif;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-element a {
+    color: inherit;
+    text-decoration: underline 0.15em rgba(255, 255, 255, 0);
+    transition: text-decoration-color 1s, margin 0.2s;
+}
+  
+.nav-element a:hover {
+    text-decoration-color: rgba(0, 0, 0, 1);
+    margin-left: 15px;
+}
+
+section {
+    width: 100vw;
+    height: 100vh;
+}
+
+#maison {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.fiche {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo {
+    border-radius: 50%;
+    width: 30vh;
+    height: 30vh;
+    border: darkslateblue;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5vh;
+}
+
+.nom {
+    display: flex;
+    justify-content: center;
+    font-size:4em ;
+    line-height: 1em;
+    font-family: 'Dongle', sans-serif;
+}
+
+.nom span{
+    z-index: 31;
+}
+
+.nom span:nth-child(1).shake {
+	animation: .8s shake infinite alternate;
+}
+
+@keyframes shake {
+    0% { transform: skewX(-15deg); }
+    5% { transform: skewX(15deg); }
+    10% { transform: skewX(-15deg); }
+    15% { transform: skewX(15deg); }
+    20% { transform: skewX(0deg); }
+    100% { transform: skewX(0deg); }  
+  }
+
+.nom span:nth-child(1).active {
+	animation: balance 2.7s ease-out;
+	transform-origin: bottom;
+}
+
+@keyframes balance {
+	0%, 100% {
+		transform: rotate(0deg);
+	}
+	
+	5%, 99% {
+		transform: rotate(-90deg);
+	}
+}
+
+.socials {
+    display: flex;
+    justify-content: space-around;   
+    margin: 10% 0 0 0;
+}
+
+.social-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10% 0 10%;
+}
+
+#profil {
+    background-color: chartreuse;
+}
+
+#competences {
+    background-color: chocolate;
+}
+
+#portfolio {
+    background-color: darkslateblue;
+}
+  
