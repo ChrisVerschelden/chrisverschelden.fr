@@ -5,8 +5,8 @@
     margin: 0; padding: 0;
     --bg-color: #1f2041;
     --accent-color: #54a075;
-    --accent-toned-up: #386B4E;
-    --accent-bg-color: #d0ceba;
+    --accent-toned-up: #397261;
+    --accent-bg-color: #ABA9BB;
     --text-color: #fff;
   }
 
@@ -29,7 +29,7 @@ body {
 
 .navbar {
     position: fixed;
-    width: 17vw;
+    width: 13vw;
     height: 100vh;
     margin-left: 1vw;
     display: flex;
@@ -286,7 +286,59 @@ section {
 }
 
 #competences {
-    background-color: chocolate;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 5vh 0 5vh 10vw;
+}
+
+.skills {
+    padding: 1% 5% 5% 5%;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: var(--accent-color) 1px solid;
+    border-radius: 20px;
+}
+
+.skills.soft {
+    width: 15vw;
+}
+
+.skills.software {
+    width: 15vw;
+}
+
+.skill-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.skills-title {
+    font-size: 4em;
+}
+
+.skill-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3vh 5% 2vh 5%;
+}
+
+.skill-element div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 5% 0 5%;
+}
+
+.logo {
+    height: 4vw;
+    width: 4vw;
 }
 
 #portfolio {
@@ -338,7 +390,6 @@ section {
   }
 
 
-  
   /* [type="submit"] {
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     width: 40%;
