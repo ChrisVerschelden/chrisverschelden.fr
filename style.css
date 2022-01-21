@@ -14,6 +14,7 @@ body {
     font-family: 'Dongle', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
+    overflow-x: hidden;
 } 
 
 
@@ -58,12 +59,13 @@ body {
 }
 
 .info span {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .info i {
-  color: var(--accent-color);
+    color: var(--accent-color);
+    margin-top: 2%;
 }
 
 section {
@@ -299,26 +301,100 @@ section {
     width: 60vw;
     display: flex;
     flex-direction: row;
-    border: var(--accent-color) 1px solid;
-    border-radius: 100px;
+    align-items: center;
+    border: var(--accent-color) 3px solid;
+    border-radius: 50px;
 }
 
 .fiche-profil-left {
     width: 30%;
+    height: 101%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    border-right: var(--accent-color) 3px solid;
+}
+
+.fiche-profil-left div {
+    border: unset;
+    height: unset;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    border-right: var(--accent-color) 1px solid;
+    text-transform: uppercase;
+}
+
+.fiche-profil-left p {
+    border: unset;
+    height: unset;
+    width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-transform: uppercase;
 }
 
 .fiche-profil-right {
     width: 70%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-left: var(--accent-color) 1px solid;
+    flex-direction: row;
 }
 
+.fiche-profil-right img {
+    max-height: 50px;
+}
+
+.fiche-profil-right.parcours {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.fiche-profil-right.parcours div {
+  display: flex;
+  border: unset;
+  height: unset;
+  width: 50%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.fiche-profil-right.parcours p {
+  border: unset;
+  height: unset;
+  width: 100%;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-transform: uppercase;
+}
+
+.fiche-profil-right.experiences {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.fiche-profil-right.experiences div {
+  display: flex;
+  border: unset;
+  height: unset;
+  width: 50%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.fiche-profil-right.experiences p {
+  border: unset;
+  height: unset;
+  width: 100%;
+  margin-left: 10%;
+  margin-right: 10%;
+  text-transform: uppercase;
+}
 
 #competences {
     display: flex;
@@ -333,7 +409,7 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: var(--accent-color) 1px solid;
+    border: var(--accent-color) 3px solid;
     border-radius: 20px;
 }
 
