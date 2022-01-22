@@ -158,7 +158,7 @@ section {
 .socials {
     display: flex;
     justify-content: space-around;
-    margin: 1% 0 0 0;
+    margin: 3% 0 0 0;
 }
 
 .social-element {
@@ -207,7 +207,7 @@ section {
 .btn span {
     position: relative;
     display: inline-block;
-    font-size: 14px;
+    font-size: 24px;
     font-weight: bold;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -216,11 +216,7 @@ section {
     width: 100%;
     padding: 15px 20px;
     transition: 0.3s;
-}
-
-.btn span a {
-    color: inherit;
-    text-decoration: inherit;
+    text-align: center;
 }
 
 .btn-3 {
@@ -228,6 +224,7 @@ section {
 }
 
 .btn-3 span {
+    width: 200px;
     color: var(--text-color);
     background-color: var(--accent-bg-color);
 }
