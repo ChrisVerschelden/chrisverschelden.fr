@@ -338,7 +338,7 @@ class PlatformerEditorScreen {
             //draw back layer
             levels[g_ctx.current_level].back_layer.objects.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './assets/decor/' + el.asset_path
+                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
@@ -346,7 +346,7 @@ class PlatformerEditorScreen {
             //draw middle layer
             levels[g_ctx.current_level].middle_layer.objects.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './assets/decor/' + el.asset_path
+                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
