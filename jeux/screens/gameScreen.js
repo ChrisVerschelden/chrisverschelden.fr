@@ -22,7 +22,7 @@ class PlatformerGameScreen {
             //draw back layer
             levels[g_ctx.current_level].back_layer.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
+                tmp_tile.src = './assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
@@ -30,7 +30,7 @@ class PlatformerGameScreen {
             //draw middle layer
             levels[g_ctx.current_level].middle_layer.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
+                tmp_tile.src = './assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
@@ -70,7 +70,7 @@ class PlatformerGameScreen {
         //drawing foreground elements then various overlays
         levels[g_ctx.current_level].objects.front_layer.forEach(el => {
             let tmp_tile = new Image()
-            tmp_tile.src = './jeux/assets/decor/' + el.asset_path
+            tmp_tile.src = './assets/decor/' + el.asset_path
             tmp_tile.style.transform = el.transform
             g_ctx.context_foreground.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
         });
