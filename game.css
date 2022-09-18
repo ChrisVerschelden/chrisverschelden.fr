@@ -1,0 +1,16 @@
+body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+#tools_div {
+    position: absolute;
+    margin-top: 530px;
+    margin-left: 10px;
+    transition: all ease-in-out;
+}
+
+#tools_div:hover {
+    margin-top: 330px;
+    transition: all ease-in-out;
+}

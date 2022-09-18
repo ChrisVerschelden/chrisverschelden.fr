@@ -1,4 +1,4 @@
-import { Point, Line, Circle, Label, Rectangle, Button, Level, TileWithSections, Tile } from "../other/game_objects.js"
+import { Point, Line, Circle, Label, Rectangle, Button, Level, TileWithSections,GO_Set, Tile } from "../other/game_objects.js"
 import { g_ctx } from "../other/global_context.js"
 import { levels } from "../other/levels.js"
 import { intersect } from "../other/intersectFunctions.js"
@@ -18,19 +18,20 @@ class PlatformerEditorScreen {
             tiles_grass : new Image(),
             tiles_caves : new Image(),
         }
-        this.tiles_assets.tiles_caves.src  = "./assets/decor/cave_background_0.png"
-        this.tiles_assets.tiles_grass.src  = "./assets/decor/grass_tileset_0.png"
+        this.tiles_assets.tiles_caves.src  = "assets/decor/cave_background_0.png"
+        this.tiles_assets.tiles_grass.src  = "assets/decor/grass_tileset_0.png"
 
         this.buttons = [
-            new Button(400, 10,"").setLabel(new Label(30, 15, "back layer")).setActive(true),
-            new Button(510, 10,"").setLabel(new Label(30, 15, "middle layer")),
-            new Button(620, 10,"").setLabel(new Label(30, 15, "front layer")),
-            new Button(400, 50,"").setLabel(new Label(30, 15, "place spawn")),
-            new Button(400, 90,"").setLabel(new Label(30, 15, "place exit")),
-            new Button(400, 130,"").setLabel(new Label(30, 15, "place wall")),
-            new Button(400, 170,"").setLabel(new Label(30, 15, "clear hand")),
-            new Button(400, 210,"").setLabel(new Label(30, 15, "save level")),
-            new Button(400, 250,"").setLabel(new Label(30, 15, "reset level")),
+            new Button(400, 10,"").setLabel(new Label(25, 15, "back layer")).setActive(true),
+            new Button(510, 10,"").setLabel(new Label(25, 15, "middle layer")),
+            new Button(620, 10,"").setLabel(new Label(25, 15, "front layer")),
+            new Button(510, 50,"").setLabel(new Label(15, 15, "remove element")),
+            new Button(400, 50,"").setLabel(new Label(25, 15, "place spawn")),
+            new Button(400, 90,"").setLabel(new Label(25, 15, "place exit")),
+            new Button(400, 130,"").setLabel(new Label(25, 15, "place wall")),
+            new Button(400, 170,"").setLabel(new Label(25, 15, "clear hand")),
+            new Button(400, 210,"").setLabel(new Label(25, 15, "save level")),
+            new Button(400, 250,"").setLabel(new Label(25, 15, "reset level")),
         ]
 
         this.last_mouse_pos = new Point(0, 0)
@@ -44,9 +45,11 @@ class PlatformerEditorScreen {
         this.spawn = null
         this.wall  = null
         this.exit  = null
+        this.remove = null
         this.draw_grid = false
         this.game_grid = this.create_grid_of_divided_cases(16, 16, 32, 0, 0)
 
+        g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.click_return(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_tile(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_wall(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_spawn(event) : -1);
@@ -91,9 +94,7 @@ class PlatformerEditorScreen {
         let label = ""
         for (let index = 0; index < this.buttons.length; index++) {
             label = this.buttons[index].label.label
-            console.log('hey');
             if(intersect(pos, this.buttons[index])){
-                console.log(label);
                 label = label.split(" ")
 
                 if (label[1] === "layer") {
@@ -105,18 +106,43 @@ class PlatformerEditorScreen {
                 } else if (label[0] === "save") {
                     console.log(levels[g_ctx.current_level].to_str_eval())
                     localStorage.setItem("level_" + g_ctx.current_level, levels[g_ctx.current_level].to_str_eval())
+                    //télécharger le niveau
+                    var a = document.createElement("a");
+                    document.body.appendChild(a);
+                    a.style = "display: none";
+                    var json = levels[g_ctx.current_level].to_str_eval(),
+                        blob = new Blob([json], {type: "octet/stream"}),
+                        url = window.URL.createObjectURL(blob);
+                    a.href = url;
+                    a.download = "level_" + g_ctx.current_level +".txt";
+                    a.click();
+                    window.URL.revokeObjectURL(url);
                 } else if (label[0] === "reset") {
-                    levels[g_ctx.current_level] = new Level([new Line(new Point(0 , 480), new Point(532, 480))],[],[],[],new Point(250,460), new Point(0,0), 32)
+                    levels[g_ctx.current_level] = new Level(new GO_Set([]),new GO_Set([]),new GO_Set([]),new GO_Set([]),new Point(250,460),new Point(0,0),32)
                     localStorage.setItem("level_" + g_ctx.current_level, levels[g_ctx.current_level].to_str_eval())
                     this.background_update = true
                 } else {
-                    this.clear_tools_hand(label[1])
+                    
                     this.place_other = label[1]
                     if ( label[1] === "wall") this.wall = new Line(new Point(0,0), new Point(0,0))
 
                     if ( label[1] === "spawn") this.spawn = new Point(0,0)
 
                     if ( label[1] === "exit") this.exit = new Point(0,0)
+
+                    if ( label[1] === "element") {
+                        this.remove = !this.remove
+                        this.buttons.forEach(element => {
+                            if(this.remove && element.label.label === "remove element"){
+                                element.setActive(true)
+                            } else if (element.label.label === "remove element") {
+                                element.setActive(false)
+                            }
+                        });
+                        return
+                    }
+
+                    this.clear_tools_hand(label[1])
                 }
                 
                 
@@ -127,6 +153,7 @@ class PlatformerEditorScreen {
         let rect = new Rectangle(0,0,0,0,0,0,0,0)
         for (let i = 0; i < this.tiles_grids["grass"].length; i++) {
             if (intersect(pos, this.tiles_grids["grass"][i])) {
+                this.clear_tools_hand("tile")
                 rect.x = this.tiles_grids["grass"][i].x - 10
                 rect.y = this.tiles_grids["grass"][i].y - 10
                 this.current_tile.asset = "grass"
@@ -134,13 +161,13 @@ class PlatformerEditorScreen {
             }
 
             if (intersect(pos, this.tiles_grids["cave"][i])) {
+                this.clear_tools_hand("tile")
                 rect.x = this.tiles_grids["cave"][i].x - 10
                 rect.y = this.tiles_grids["cave"][i].y - 148
                 this.current_tile.asset = "cave"
                 this.current_tile.position = rect
             }        
         }
-        //console.log(this.current_tile);
     }
 
     draw_tools() {
@@ -178,11 +205,10 @@ class PlatformerEditorScreen {
         let pos = this.last_mouse_pos_game
         let src
         if (this.current_tile.asset === "grass") {
-            src  = "./assets/decor/grass_tileset_"+g_ctx.angle[g_ctx.wheel_position]+".png"
+            src  = "assets/decor/grass_tileset_"+g_ctx.angle[g_ctx.wheel_position]+".png"
         } else {
-            src  = "./assets/decor/cave_background_"+g_ctx.angle[g_ctx.wheel_position]+".png"
+            src  = "assets/decor/cave_background_"+g_ctx.angle[g_ctx.wheel_position]+".png"
         }
-        console.log(src);
         let tile = new Image()
         tile.src = src
         let angle = {0: "0",1: "90",2: "180", 3: "270"}
@@ -219,7 +245,6 @@ class PlatformerEditorScreen {
 
     place_wall(){
         if (this.wall === null) return
-
         let temp_line
         let pos = this.last_mouse_pos_game
         let inside_pos = -1
@@ -227,8 +252,13 @@ class PlatformerEditorScreen {
             if (intersect(pos, this.game_grid[i])) {
                 inside_pos = this.game_grid[i].section_collision(pos)
                 if (inside_pos != -1) {
-                    temp_line = this.game_grid[i].get_line(inside_pos)           
-                    levels[g_ctx.current_level].plateforms.add(temp_line)
+                    temp_line = this.game_grid[i].get_line(inside_pos)
+                    if (this.remove) {
+                        levels[g_ctx.current_level].plateforms.remove(temp_line)
+                    } else {
+                        levels[g_ctx.current_level].plateforms.add(temp_line)
+                    }
+                    
                 }
                 inside_pos = -1
             }
@@ -243,8 +273,6 @@ class PlatformerEditorScreen {
         let src
         if (this.current_tile.asset === "grass") {src  = "grass_tileset_"+ g_ctx.angle[g_ctx.wheel_position] +".png"} 
         else {src  = "cave_background_"+g_ctx.angle[g_ctx.wheel_position]+".png"}
-        
-        console.log(src);
         let new_tile = new Tile(this.current_tile.position.x, this.current_tile.position.y, 0, 0, 32, src, g_ctx.wheel_position)
         for (let i = 0; i < this.game_grid.length; i++) {
             if (intersect(pos, this.game_grid[i])) {
@@ -252,13 +280,25 @@ class PlatformerEditorScreen {
                 new_tile.y = this.game_grid[i].y
                 switch (this.current_layer) {
                     case "back":
-                        levels[g_ctx.current_level].back_layer.add(new_tile)
+                        if (this.remove) {
+                            levels[g_ctx.current_level].back_layer.remove(new_tile)
+                        } else {
+                            levels[g_ctx.current_level].back_layer.add(new_tile)
+                        }
                         break;
                     case "middle":
-                        levels[g_ctx.current_level].middle_layer.add(new_tile)
+                        if (this.remove) {
+                            levels[g_ctx.current_level].middle_layer.remove(new_tile)
+                        } else {
+                            levels[g_ctx.current_level].middle_layer.add(new_tile)
+                        }
                         break;
                     case "front":
-                        levels[g_ctx.current_level].front_layer.add(new_tile)
+                        if (this.remove) {
+                            levels[g_ctx.current_level].front_layer.remove(new_tile)
+                        } else {
+                            levels[g_ctx.current_level].front_layer.add(new_tile)
+                        }
                         break;
                     default:
                         break;
@@ -338,7 +378,7 @@ class PlatformerEditorScreen {
             //draw back layer
             levels[g_ctx.current_level].back_layer.objects.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
+                tmp_tile.src = '../assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
@@ -346,7 +386,7 @@ class PlatformerEditorScreen {
             //draw middle layer
             levels[g_ctx.current_level].middle_layer.objects.forEach(el => {
                 let tmp_tile = new Image()
-                tmp_tile.src = './jeux/assets/decor/' + el.asset_path
+                tmp_tile.src = '../assets/decor/' + el.asset_path
                 tmp_tile.style.transform = el.transform
                 g_ctx.context_background.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
             });
@@ -387,7 +427,7 @@ class PlatformerEditorScreen {
         }
 
         //update all objects
-        g_ctx.player.update()
+        g_ctx.player.update(g_ctx)
 
 
         //check for collisions
@@ -405,7 +445,7 @@ class PlatformerEditorScreen {
         //drawing foreground elements then various overlays
         levels[g_ctx.current_level].front_layer.objects.forEach(el => {
             let tmp_tile = new Image()
-            tmp_tile.src = './assets/decor/' + el.asset_path
+            tmp_tile.src = '../assets/decor/' + el.asset_path
             tmp_tile.style.transform = el.transform
             g_ctx.context_foreground.drawImage(tmp_tile, el.clipX, el.clipY, el.size, el.size, el.x, el.y, el.size, el.size)
         });
