@@ -47,9 +47,8 @@ class PlatformerEditorScreen {
         this.exit  = null
         this.remove = null
         this.draw_grid = false
-        this.game_grid = this.create_grid_of_divided_cases(16, 16, 32, 0, 0)
+        this.game_grid = this.create_grid_of_divided_cases(25, 25, 32, 0, 0)
 
-        g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.click_return(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_tile(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_wall(event) : -1);
         g_ctx.canvas_foreground.addEventListener("mouseup", event => g_ctx.editing_mode === true ? this.place_spawn(event) : -1);
@@ -96,7 +95,6 @@ class PlatformerEditorScreen {
             label = this.buttons[index].label.label
             if(intersect(pos, this.buttons[index])){
                 label = label.split(" ")
-
                 if (label[1] === "layer") {
                     this.current_layer = label[0]
                     for (let i = 0; i < this.buttons.length; i++) { if ( i !== index ) this.buttons[i].setActive(false)}
@@ -122,8 +120,7 @@ class PlatformerEditorScreen {
                     localStorage.setItem("level_" + g_ctx.current_level, levels[g_ctx.current_level].to_str_eval())
                     this.background_update = true
                 } else {
-                    
-                    this.place_other = label[1]
+                    this.clear_tools_hand(label[1])
                     if ( label[1] === "wall") this.wall = new Line(new Point(0,0), new Point(0,0))
 
                     if ( label[1] === "spawn") this.spawn = new Point(0,0)
@@ -141,16 +138,13 @@ class PlatformerEditorScreen {
                         });
                         return
                     }
-
-                    this.clear_tools_hand(label[1])
+                    
                 }
-                
-                
                 this.draw_tools()
                 return
             } 
         }
-        let rect = new Rectangle(0,0,0,0,0,0,0,0)
+        let rect = new Rectangle(0,0,0,0)
         for (let i = 0; i < this.tiles_grids["grass"].length; i++) {
             if (intersect(pos, this.tiles_grids["grass"][i])) {
                 this.clear_tools_hand("tile")
@@ -239,6 +233,7 @@ class PlatformerEditorScreen {
     }
 
     draw_exit_prevue(){
+        console.log('wsh');
         let point = new Circle(this.last_mouse_pos_game.x, this.last_mouse_pos_game.y,3).setDrawingMode('fill')
         point.draw(g_ctx.context_foreground)
     }
@@ -251,14 +246,13 @@ class PlatformerEditorScreen {
         for (let i = 0; i < this.game_grid.length; i++) {
             if (intersect(pos, this.game_grid[i])) {
                 inside_pos = this.game_grid[i].section_collision(pos)
-                if (inside_pos != -1) {
+                if (inside_pos !== -1) {
                     temp_line = this.game_grid[i].get_line(inside_pos)
                     if (this.remove) {
                         levels[g_ctx.current_level].plateforms.remove(temp_line)
                     } else {
                         levels[g_ctx.current_level].plateforms.add(temp_line)
                     }
-                    
                 }
                 inside_pos = -1
             }
@@ -317,7 +311,7 @@ class PlatformerEditorScreen {
 
     place_exit(){
         if (this.exit === null) return
-
+        console.log('wsh');
         levels[g_ctx.current_level].exit = this.last_mouse_pos_game
         this.background_update = true
     }
@@ -360,6 +354,7 @@ class PlatformerEditorScreen {
                 this.spawn = null
                 this.wall  = null
                 this.exit  = null
+                this.remove = null
                 break;
         }
     }
@@ -373,7 +368,7 @@ class PlatformerEditorScreen {
 
         if( !(g_ctx.level_as_been_drawed) || this.background_update ){
             g_ctx.player.draw_hitboxes = true
-            g_ctx.context_background.clearRect(0,0,512, 512)
+            g_ctx.context_background.clearRect(0,0,800, 800)
 
             //draw back layer
             levels[g_ctx.current_level].back_layer.objects.forEach(el => {
@@ -435,8 +430,8 @@ class PlatformerEditorScreen {
 
 
         //clearing foreground and tools overlay each frame ( sinon c caca )
-        this.context_tools_overlay.clearRect(0,0,512, 512)
-        g_ctx.context_foreground.clearRect(0,0,512, 512)
+        this.context_tools_overlay.clearRect(0,0,800, 800)
+        g_ctx.context_foreground.clearRect(0,0,800, 800)
 
         //drawing player and sprites layer 
         g_ctx.player.draw(g_ctx.context_foreground)

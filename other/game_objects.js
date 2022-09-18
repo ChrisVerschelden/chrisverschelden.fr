@@ -523,7 +523,7 @@ class GO_Set {
 
     remove(obj){
         let pos = this.in(obj)
-        if (pos !== -1) this.objects.splice(pos, pos+1)
+        if (pos !== -1) this.objects.splice(pos, 1)
     }
 
     pop(){

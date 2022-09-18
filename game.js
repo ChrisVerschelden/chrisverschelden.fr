@@ -1,6 +1,6 @@
 import { g_ctx } from "./other/global_context.js";
 import { levels } from "./other/levels.js";
-import { Point, Circle, Label, Polygon, Rectangle, Button, Square, Triangle, TileWithSections, Player, Line } from "./other/game_objects.js";
+import { Point, Label, Button, Player} from "./other/game_objects.js";
 import { keydown, keyup, wheel_pos } from "./other/keyFunctions.js";
 import { PlatformerEditorScreen } from "./screens/levelEditorScreen.js";
 import { PlatformerGameScreen } from "./screens/gameScreen.js";
@@ -41,8 +41,8 @@ function gameLoop(timeStamp) {
         }
     } else {
         // Clear the entire canvas
-        g_ctx.context_foreground.clearRect(0, 0, 512, 512);
-        g_ctx.context_background.clearRect(0, 0, 512, 512);
+        g_ctx.context_foreground.clearRect(0, 0, 800, 800);
+        g_ctx.context_background.clearRect(0, 0, 800, 800);
         home_screen_buttons()
         draw_home_screen()
     }
@@ -56,7 +56,7 @@ function draw_home_screen() {
 
     g_ctx.context_background.beginPath()
     g_ctx.context_background.moveTo(300, 0)
-    g_ctx.context_background.lineTo(300,512)
+    g_ctx.context_background.lineTo(300,800)
     g_ctx.context_background.stroke()
     g_ctx.context_background.closePath()
 }
