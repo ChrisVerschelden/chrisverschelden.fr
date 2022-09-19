@@ -120,13 +120,6 @@ class PlatformerEditorScreen {
                     localStorage.setItem("level_" + g_ctx.current_level, levels[g_ctx.current_level].to_str_eval())
                     this.background_update = true
                 } else {
-                    this.clear_tools_hand(label[1])
-                    if ( label[1] === "wall") this.wall = new Line(new Point(0,0), new Point(0,0))
-
-                    if ( label[1] === "spawn") this.spawn = new Point(0,0)
-
-                    if ( label[1] === "exit") this.exit = new Point(0,0)
-
                     if ( label[1] === "element") {
                         this.remove = !this.remove
                         this.buttons.forEach(element => {
@@ -139,6 +132,12 @@ class PlatformerEditorScreen {
                         return
                     }
                     
+                    this.clear_tools_hand(label[1])
+                    if ( label[1] === "wall") this.wall = new Line(new Point(0,0), new Point(0,0))
+
+                    if ( label[1] === "spawn") this.spawn = new Point(0,0)
+
+                    if ( label[1] === "exit") this.exit = new Point(0,0)
                 }
                 this.draw_tools()
                 return

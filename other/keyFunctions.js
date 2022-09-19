@@ -24,8 +24,8 @@ function keydown(e) {
     // 38 is the code for the up arrow key
     if(e.keyCode == 38) {
         if(g_ctx.player.jump == false) {
-            g_ctx.player.vy = -10;
-            g_ctx.player.vx /= 1.5
+            g_ctx.player.vy = -9;
+            //g_ctx.player.vx /= 1.8
         }
     }
     // 39 is the code for the right arrow key
