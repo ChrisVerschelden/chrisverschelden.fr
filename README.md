@@ -1,2 +1,2 @@
 # chrisverschelden.fr
-isn't it clear what it is from the title ?
+it's a kind of mono-repo containing my CV and all my javascript based projects
